@@ -9,6 +9,5 @@ public class Main {
 
         JSONObject inputJSONObject = new JSONObject(inputJsonString);
         JSONObject outputJSONObject = new JSONObject(outputJsonString);
-
     }
 }

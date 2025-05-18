@@ -9,8 +9,7 @@ public class Simulation {
         this.runner = new EventRunner(events);
     }
     public void start() {
-        while (runner.hasEventLeft()) {
-            runner.runNextEvent();
-        }
+        CrossroadAlgorithm crossroadAlgorithm = new CrossroadAlgorithm();
+
     }
 }
