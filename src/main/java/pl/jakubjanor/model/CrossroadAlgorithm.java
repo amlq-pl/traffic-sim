@@ -11,7 +11,6 @@ public class CrossroadAlgorithm {
 
     public CrossroadAlgorithm(Crossroad crossroad) {
         turnOnLights(crossroad);
-
     }
 
     public void updateLights(Crossroad crossroad) {

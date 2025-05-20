@@ -1,5 +1,7 @@
 package pl.jakubjanor.model;
 
+import pl.jakubjanor.view.CrossroadView;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -35,6 +37,13 @@ public class Simulation {
         } catch (IOException e) {
             System.out.println("Output file is malfunctioned");
         }
+    }
 
+    public void simulate(CrossroadView view) {
+        view.setRunner(this.runner);
+        Crossroad crossroad = new Crossroad();
+        CrossroadAlgorithm algorithm = new CrossroadAlgorithm(crossroad);
+        view.setAlgorithm(algorithm);
+        view.setCrossroad(crossroad);
     }
 }
