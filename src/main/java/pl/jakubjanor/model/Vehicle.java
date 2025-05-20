@@ -1,6 +1,6 @@
 package pl.jakubjanor.model;
 
-public record Vehicle(int vehicleId,
+public record Vehicle(String vehicleId,
                       Direction startRoad,
                       Direction endRoad) {
 }

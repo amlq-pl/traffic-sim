@@ -1,19 +1,28 @@
 package pl.jakubjanor.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Crossroad {
-    private final Map<Direction, Road> roads = new HashMap<>();
+    private final Map<Direction, Queue<Vehicle>> roads = new HashMap<>();
 
     public Crossroad() {
         for (Direction direction : Direction.values()) {
-            roads.put(direction, new Road());
+            roads.put(direction, new LinkedList<>());
         }
     }
 
+    public void addVehicle(Vehicle v) {
+        Direction dir = v.startRoad();
+        Queue<Vehicle> road = roads.get(dir);
+        road.offer(v);
+    }
+
+    public List<Vehicle> moveVehicles() {
+        return null;
+    }
+
     public Vehicle exitCrossroad(Direction startDirection) {
-        Road startRoad = roads.get(startDirection);
-        return (startRoad.vehicles.isEmpty()) ? null : startRoad.vehicles.poll();
+        Queue<Vehicle> startRoad = roads.get(startDirection);
+        return (startRoad.isEmpty()) ? null : startRoad.poll();
     }
 }
