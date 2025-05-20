@@ -17,4 +17,16 @@ public enum Direction {
     public static Direction fromString(String s) {
         return directionMap.get(s);
     }
+
+    public Direction opposite() {
+        return values()[(this.ordinal() + 2) % 4];
+    }
+
+    public Direction left() {
+        return values()[(this.ordinal() + 3) % 4];
+    }
+
+    public Direction right() {
+        return values()[(this.ordinal() + 1) % 4];
+    }
 }

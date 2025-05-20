@@ -5,12 +5,13 @@ import java.util.Map;
 import java.util.Queue;
 
 public class CrossroadAlgorithm {
-    private final Map<Direction, Integer> stepScore = new HashMap<>();
+    private final int BASE_GREEN_SCORE = 5;
+    private boolean verticalGreen;
+    private int greenScore;
 
-    public CrossroadAlgorithm() {
-        for (Direction direction : Direction.values()) {
-            stepScore.put(direction, 0);
-        }
+    public CrossroadAlgorithm(Crossroad crossroad) {
+        turnOnLights(crossroad);
+
     }
 
     public void updateLights(Crossroad crossroad) {
@@ -21,60 +22,42 @@ public class CrossroadAlgorithm {
             tempScore.put(direction, cnt);
         }
         int vertSum = tempScore.get(Direction.NORTH) + tempScore.get(Direction.SOUTH);
-        int vertSumAmplified = vertSum + stepScore.get(Direction.NORTH) + stepScore.get(Direction.SOUTH);
-
         int horSum = tempScore.get(Direction.WEST) + tempScore.get(Direction.EAST);
-        int horSumAmplified = horSum + stepScore.get(Direction.WEST) + stepScore.get(Direction.EAST);
 
-        if (vertSum == 0 && crossroad.getLights().get(Direction.NORTH).getState() == LightColor.GREEN) {
-            switchLights(crossroad);
-        }
-
-        if (horSum == 0 && crossroad.getLights().get(Direction.EAST).getState() == LightColor.GREEN) {
-            switchLights(crossroad);
-        }
-
-        if (crossroad.getLights().get(Direction.NORTH).getState() == LightColor.GREEN
-                && horSum > vertSum || crossroad.getLights().get(Direction.EAST).getState() == LightColor.GREEN
-                && horSum < vertSum) {
-            switchLights(crossroad);
+        if (verticalGreen) {
+            if (vertSum == 0 || greenScore + vertSum < horSum)
+                switchToHorizontal(crossroad);
+            else greenScore -= 1;
         } else {
-            for (Direction dir : Direction.values()) {
-                if (stepScore.get(dir) != 0) {
-                    stepScore.replace(dir, stepScore.get(dir) - 1);
-                }
-            }
+            if (horSum == 0 || greenScore + horSum < vertSum)
+                switchToVertical(crossroad);
+            else greenScore -= 1;
         }
-
     }
 
-    public void switchGreenVertical(Crossroad crossroad) {
+    private void switchToVertical(Crossroad crossroad) {
+        crossroad.getLights().get(Direction.EAST).setState(LightColor.RED);
+        crossroad.getLights().get(Direction.WEST).setState(LightColor.RED);
+
         crossroad.getLights().get(Direction.NORTH).setState(LightColor.GREEN);
-        stepScore.replace(Direction.NORTH, 5);
         crossroad.getLights().get(Direction.SOUTH).setState(LightColor.GREEN);
-        stepScore.replace(Direction.SOUTH, 5);
+
+        verticalGreen = true;
+        greenScore = BASE_GREEN_SCORE;
     }
 
-    public void switchGreenHorizontal(Crossroad crossroad) {
+    private void switchToHorizontal(Crossroad crossroad) {
+        crossroad.getLights().get(Direction.NORTH).setState(LightColor.RED);
+        crossroad.getLights().get(Direction.SOUTH).setState(LightColor.RED);
+
         crossroad.getLights().get(Direction.EAST).setState(LightColor.GREEN);
-        stepScore.replace(Direction.EAST, 5);
         crossroad.getLights().get(Direction.WEST).setState(LightColor.GREEN);
-        stepScore.replace(Direction.WEST, 5);
-    }
 
-    public void switchLights(Crossroad crossroad) {
-        for (Direction dir : Direction.values()) {
-            if (crossroad.getLights().get(dir).getState() == LightColor.GREEN) {
-                stepScore.replace(dir, 0);
-                crossroad.getLights().get(dir).setState(LightColor.RED);
-            } else {
-                stepScore.replace(dir, 5);
-                crossroad.getLights().get(dir).setState(LightColor.GREEN);
-            }
-        }
+        verticalGreen = false;
+        greenScore = BASE_GREEN_SCORE;
     }
 
     public void turnOnLights(Crossroad crossroad) {
-        switchGreenVertical(crossroad);
+        switchToVertical(crossroad);
     }
 }

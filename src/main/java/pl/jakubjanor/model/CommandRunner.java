@@ -8,12 +8,12 @@ public class CommandRunner {
     private final Queue<Command> commandQueue;
     private final Crossroad crossroad;
     private final List<Note> vehicleNotes = new LinkedList<>();
-    private final CrossroadAlgorithm lightsAlgorithm = new CrossroadAlgorithm();
+    private final CrossroadAlgorithm lightsAlgorithm;
 
     public CommandRunner(Queue<Command> eventQueue, Crossroad crossroad) {
         this.commandQueue = eventQueue;
         this.crossroad = crossroad;
-        this.lightsAlgorithm.turnOnLights(this.crossroad);
+        this.lightsAlgorithm = new CrossroadAlgorithm(this.crossroad);
     }
 
     public void runNextCommand() {

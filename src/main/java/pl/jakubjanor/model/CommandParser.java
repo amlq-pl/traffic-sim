@@ -25,7 +25,7 @@ public class CommandParser {
                     commands.add(new AddVehicleCommand(vehicleId, startRoad, endRoad));
                 }
                 case "step" -> commands.add(new StepCommand());
-                default -> throw new IllegalArgumentException(STR."Unknown command type: \{type}");
+                default -> throw new IllegalArgumentException("Unknown command type: " + type);
             }
         }
 

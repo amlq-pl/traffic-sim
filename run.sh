@@ -1,0 +1,1 @@
+mvn javafx:run -Djavafx.args="/Users/jakubjanor/AVS/lights/src/main/resources/input.json /Users/jakubjanor/AVS/lights/src/main/resources/output.json"
